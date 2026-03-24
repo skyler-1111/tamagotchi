@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bit-Bit: Focus Pet</title>
+    <title>Bit-Bit: Neo-Brutalist Pet</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;900&family=Space+Mono:wght@400;700&display=swap');
@@ -505,7 +505,333 @@
     </div>
 
     <audio id="bg-audio" loop></audio>
-    <audio id="sfx-alert" src="https://actions.google.com/sounds/v1/alarms/beep_short.mp3"></audio>
+    <audio id="sfx-alert" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+    <script>
+        // State Management
+        let stats = {
+            hunger: 100,
+            hygiene: 100,
+            social: 100,
+            isSleeping: false,
+            isDead: false,
+            coins: 0,
+            isAutoPetting: false,
+            hasShades: false,
+            shadesColor: '#5DE2E7',
+            skinColor: '#000000'
+        };
+
+        let timer = {
+            seconds: 1500,
+            isActive: false,
+            interval: null,
+            mode: 'focus',
+            miningTick: 0
+        };
+
+        const petBody = document.getElementById('pet-body');
+        const petContainer = document.getElementById('pet-container');
+        const petMouth = document.getElementById('pet-mouth');
+        const logs = document.getElementById('logs');
+        const bgAudio = document.getElementById('bg-audio');
+
+        function init() {
+            updateUI();
+            startDegradation();
+        }
+
+        function log(msg) {
+            const entry = document.createElement('div');
+            entry.innerHTML = `> ${msg}`;
+            logs.prepend(entry);
+        }
+
+        function startDegradation() {
+            setInterval(() => {
+                if (stats.isDead) return;
+
+                if (!stats.isSleeping) {
+                    stats.hunger = Math.max(0, stats.hunger - 0.5);
+                    stats.hygiene = Math.max(0, stats.hygiene - 0.3);
+                    // Active social drop rate is 1.0 per second
+                    if (!stats.isAutoPetting) stats.social = Math.max(0, stats.social - 1);
+                } else {
+                    stats.hunger = Math.max(0, stats.hunger - 0.1);
+                    // Sleep drop rate is now 0.1 per second (10x slower than active)
+                    if (!stats.isAutoPetting) stats.social = Math.max(0, stats.social - 0.1);
+                }
+
+                checkCondition();
+                updateUI();
+            }, 1000);
+        }
+
+        function checkCondition() {
+            if (stats.social <= 0) {
+                triggerExplosion();
+            } else if (stats.social < 20) {
+                petBody.classList.add('exploding');
+            } else {
+                if (!stats.isDead) petBody.classList.remove('exploding');
+            }
+
+            if (stats.hunger < 30) petContainer.classList.add('hungry');
+            else petContainer.classList.remove('hungry');
+
+            if (stats.hygiene < 30) petContainer.classList.add('dirty');
+            else petContainer.classList.remove('dirty');
+        }
+
+        function triggerExplosion() {
+            if (stats.isDead) return;
+            stats.isDead = true;
+            document.getElementById('death-screen').style.display = 'flex';
+            document.getElementById('timer-status').innerText = "SYSTEM FAILURE";
+            document.getElementById('timer-status').classList.add('bg-red-600');
+            log("FATAL ERROR: BIT-BIT SELF-DESTRUCTED.");
+        }
+
+        function resetGame() {
+            // Keep shades and skin!
+            const oldShades = stats.hasShades;
+            const oldShadesCol = stats.shadesColor;
+            const oldSkinCol = stats.skinColor;
+            const oldCoins = stats.coins;
+
+            stats = {
+                hunger: 100,
+                hygiene: 100,
+                social: 100,
+                isSleeping: false,
+                isDead: false,
+                coins: oldCoins, // Keep their coins!
+                isAutoPetting: false,
+                hasShades: oldShades,
+                shadesColor: oldShadesCol,
+                skinColor: oldSkinCol
+            };
+
+            document.getElementById('death-screen').style.display = 'none';
+            document.getElementById('timer-status').classList.remove('bg-red-600');
+
+            // Reset the timer too so they start fresh
+            resetTimer();
+
+            // Re-apply persistent cosmetics
+            if (stats.hasShades) {
+                document.getElementById('shades').style.display = 'block';
+                document.getElementById('shades').style.borderColor = stats.shadesColor;
+            }
+            petBody.style.background = stats.skinColor;
+
+            petBody.classList.remove('exploding');
+            petMouth.classList.remove('happy-mouth');
+            updateUI();
+            log("System Rebooted. Style preserved.");
+        }
+
+        function feed() {
+            if (stats.isDead || stats.isSleeping) return;
+            stats.hunger = Math.min(100, stats.hunger + 20);
+            log("Fed Bit-Bit.");
+            updateUI();
+        }
+
+        function clean() {
+            if (stats.isDead || stats.isSleeping) return;
+            stats.hygiene = Math.min(100, stats.hygiene + 30);
+            petContainer.classList.remove('dirty');
+            log("Cleaned Bit-Bit.");
+            updateUI();
+        }
+
+        function pet() {
+            if (stats.isDead || stats.isSleeping) return;
+            stats.social = Math.min(100, stats.social + 15);
+            petMouth.classList.add('happy-mouth');
+            petBody.classList.add('pet-joy-jump');
+            log("Bit-Bit is happy!");
+            updateUI();
+            setTimeout(() => {
+                petMouth.classList.remove('happy-mouth');
+                petBody.classList.remove('pet-joy-jump');
+            }, 800);
+        }
+
+        function toggleSleep() {
+            if (stats.isDead) return;
+            stats.isSleeping = !stats.isSleeping;
+            const btn = document.getElementById('sleep-btn');
+            if (stats.isSleeping) {
+                petContainer.classList.add('sleeping');
+                btn.innerText = "WAKE UP ☀️";
+                log("Bit-Bit went to sleep (10x slower social decay).");
+            } else {
+                petContainer.classList.remove('sleeping');
+                btn.innerText = "SLEEP 💤";
+                log("Bit-Bit woke up.");
+            }
+        }
+
+        function toggleShop() {
+            const modal = document.getElementById('shop-modal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+            updateUI();
+        }
+
+        function buyItem(item) {
+            if (stats.isDead) return;
+            const prices = { drink: 10, soap: 15, autopet: 50 };
+            const price = prices[item];
+
+            if (stats.coins >= price) {
+                stats.coins -= price;
+                if (item === 'drink') stats.hunger = 100;
+                else if (item === 'soap') stats.hygiene = 100;
+                else if (item === 'autopet') {
+                    stats.isAutoPetting = true;
+                    log("AUTO-PETTER ACTIVE (600s)");
+                    setTimeout(() => { stats.isAutoPetting = false; log("AUTO-PETTER EXPIRED."); }, 600000);
+                }
+                updateUI();
+            } else { log("NOT ENOUGH COINS."); }
+        }
+
+        function buyShades(color) {
+            if (stats.isDead) return;
+            if (stats.coins >= 100) {
+                stats.coins -= 100;
+                stats.hasShades = true;
+                stats.shadesColor = color;
+                const s = document.getElementById('shades');
+                s.style.display = 'block';
+                s.style.borderColor = color;
+                log(`BOUGHT SHADES IN ${color}.`);
+                updateUI();
+            } else { log("NOT ENOUGH COINS."); }
+        }
+
+        function buySkin(color) {
+            if (stats.isDead) return;
+            if (stats.coins >= 75) {
+                stats.coins -= 75;
+                stats.skinColor = color;
+                petBody.style.background = color;
+                log(`BOUGHT SKIN TONE: ${color}.`);
+                updateUI();
+            } else { log("NOT ENOUGH COINS."); }
+        }
+
+        function updateUI() {
+            document.getElementById('stat-hunger').innerText = Math.floor(stats.hunger) + '%';
+            document.getElementById('bar-hunger').style.width = stats.hunger + '%';
+            document.getElementById('stat-hygiene').innerText = Math.floor(stats.hygiene) + '%';
+            document.getElementById('bar-hygiene').style.width = stats.hygiene + '%';
+            document.getElementById('stat-social').innerText = Math.floor(stats.social) + '%';
+            document.getElementById('bar-social').style.width = stats.social + '%';
+            document.getElementById('wallet-display').innerText = stats.coins;
+            document.getElementById('modal-wallet').innerText = stats.coins;
+
+            // Re-enforce colors
+            petBody.style.background = stats.skinColor;
+            if (stats.hasShades) {
+                const s = document.getElementById('shades');
+                s.style.display = 'block';
+                s.style.borderColor = stats.shadesColor;
+            }
+        }
+
+        function changeBackdrop() {
+            const val = document.getElementById('bg-select').value;
+            const stage = document.getElementById('main-stage');
+            stage.className = "lg:col-span-1 neo-box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden";
+            if (val === 'cyber') stage.classList.add('backdrop-cyber');
+            if (val === 'pastel') stage.classList.add('backdrop-pastel');
+            if (val === 'matrix') stage.classList.add('backdrop-matrix');
+        }
+
+        function changeMusic() {
+            const url = document.getElementById('music-select').value;
+            if (url) {
+                bgAudio.src = url;
+                bgAudio.play().catch(e => console.log("Audio blocked"));
+            } else {
+                bgAudio.pause();
+            }
+        }
+
+        function setTimerMode(mode) {
+            if (stats.isDead) return;
+            timer.mode = mode;
+            timer.seconds = (mode === 'focus') ? 1500 : 300;
+            updateTimerDisplay();
+            document.getElementById('timer-status').innerText = mode.toUpperCase();
+        }
+
+        function toggleTimer() {
+            if (stats.isDead) return;
+            if (timer.isActive) {
+                clearInterval(timer.interval);
+                document.getElementById('timer-toggle').innerText = "START";
+            } else {
+                timer.interval = setInterval(() => {
+                    if (stats.isDead) {
+                        clearInterval(timer.interval);
+                        timer.isActive = false;
+                        document.getElementById('timer-toggle').innerText = "START";
+                        return;
+                    }
+
+                    timer.seconds--;
+                    timer.miningTick++;
+
+                    // Only mine if pet is alive
+                    if (timer.miningTick >= 10 && !stats.isDead) {
+                        stats.coins += 1;
+                        timer.miningTick = 0;
+                        updateUI();
+                    }
+                    updateTimerDisplay();
+                    if (timer.seconds <= 0) {
+                        clearInterval(timer.interval);
+                        timer.isActive = false;
+                        document.getElementById('timer-toggle').innerText = "START";
+                        document.getElementById('sfx-alert').play();
+                        showCustomNotification("TIME'S UP!");
+                    }
+                }, 1000);
+                document.getElementById('timer-toggle').innerText = "PAUSE";
+            }
+            timer.isActive = !timer.isActive;
+        }
+
+        function resetTimer() {
+            clearInterval(timer.interval);
+            timer.isActive = false;
+            timer.miningTick = 0;
+            setTimerMode(timer.mode);
+            document.getElementById('timer-toggle').innerText = "START";
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timer.seconds / 60);
+            const secs = timer.seconds % 60;
+            document.getElementById('timer-display').innerText =
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showCustomNotification(text) {
+            const bubble = document.getElementById('status-bubble');
+            bubble.innerText = text;
+            bubble.style.display = 'block';
+            setTimeout(() => bubble.style.display = 'none', 5000);
+        }
+
+        window.onload = init;
+    </script>
 </body>
 
 </html>
+
+
