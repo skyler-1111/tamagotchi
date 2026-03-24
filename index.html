@@ -1,0 +1,837 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bit-Bit: Neo-Brutalist Pet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;900&family=Space+Mono:wght@400;700&display=swap');
+
+        :root {
+            --bg-color: #FFDE59;
+            --accent-color: #FF3131;
+            --border-width: 4px;
+        }
+
+        body {
+            font-family: 'Public Sans', sans-serif;
+            background-color: var(--bg-color);
+            color: #000;
+            overflow-x: hidden;
+            transition: background 0.3s ease;
+        }
+
+        .neo-box {
+            background: #fff;
+            border: var(--border-width) solid #000;
+            box-shadow: 8px 8px 0px #000;
+            transition: all 0.2s ease;
+        }
+
+        .neo-button {
+            background: #5DE2E7;
+            border: var(--border-width) solid #000;
+            box-shadow: 4px 4px 0px #000;
+            font-weight: 900;
+            text-transform: uppercase;
+            padding: 10px 20px;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .neo-button:hover:not(:disabled) {
+            transform: translate(-2px, -2px);
+            box-shadow: 6px 6px 0px #000;
+        }
+
+        .neo-button:active:not(:disabled) {
+            transform: translate(2px, 2px);
+            box-shadow: 2px 2px 0px #000;
+        }
+
+        .neo-button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+            box-shadow: 2px 2px 0px #000;
+            opacity: 0.7;
+        }
+
+        .neo-button.danger {
+            background: #FF3131;
+            color: white;
+        }
+
+        .neo-button.warning {
+            background: #FFDE59;
+        }
+
+        .neo-button.success {
+            background: #7ED957;
+        }
+
+        .neo-button.shop-btn {
+            background: #CB6CE6;
+            color: white;
+        }
+
+        /* Modal Styles */
+        #shop-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 100;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        /* Tamagotchi Animations */
+        #pet-container {
+            width: 200px;
+            height: 200px;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.5s;
+        }
+
+        .pixel-pet {
+            width: 120px;
+            height: 120px;
+            background: #000;
+            position: relative;
+            animation: float 2s infinite ease-in-out;
+            clip-path: polygon(20% 0%, 80% 0%, 100% 20%, 100% 80%, 80% 100%, 20% 100%, 0% 80%, 0% 20%);
+            transition: transform 0.2s, background 0.3s;
+        }
+
+        .pet-face {
+            position: absolute;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .eyes-row {
+            display: flex;
+            justify-content: space-around;
+            width: 100%;
+            margin-bottom: 10px;
+            position: relative;
+        }
+
+        .eye {
+            width: 15px;
+            height: 15px;
+            background: #fff;
+            transition: height 0.2s;
+        }
+
+        #shades {
+            display: none;
+            position: absolute;
+            top: -5px;
+            width: 110%;
+            height: 25px;
+            background: #000;
+            border: 2px solid #5DE2E7;
+            z-index: 10;
+        }
+
+        .mouth {
+            width: 20px;
+            height: 4px;
+            background: #fff;
+            transition: all 0.2s;
+        }
+
+        .happy-mouth {
+            height: 12px !important;
+            border-radius: 0 0 10px 10px;
+            background: #fff;
+            width: 30px !important;
+        }
+
+        .pet-joy-jump {
+            animation: joy-jump 0.4s ease !important;
+        }
+
+        .sleeping .pixel-pet {
+            opacity: 0.5;
+            animation: none;
+            transform: translateY(20px);
+        }
+
+        .sleeping .eye {
+            height: 2px;
+        }
+
+        .hungry .pixel-pet {
+            background: #FF3131 !important;
+        }
+
+        .dirty::after {
+            content: '💩';
+            position: absolute;
+            right: -20px;
+            bottom: 0;
+            font-size: 30px;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes joy-jump {
+
+            0%,
+            100% {
+                transform: translateY(0) scale(1);
+            }
+
+            50% {
+                transform: translateY(-40px) scale(1.1);
+            }
+        }
+
+        @keyframes shake {
+            0% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+
+            10% {
+                transform: translate(-1px, -2px) rotate(-1deg);
+            }
+
+            20% {
+                transform: translate(-3px, 0px) rotate(1deg);
+            }
+
+            30% {
+                transform: translate(3px, 2px) rotate(0deg);
+            }
+
+            40% {
+                transform: translate(1px, -1px) rotate(1deg);
+            }
+
+            50% {
+                transform: translate(-1px, 2px) rotate(-1deg);
+            }
+
+            100% {
+                transform: translate(1px, 1px) rotate(0deg);
+            }
+        }
+
+        .exploding {
+            animation: shake 0.1s infinite !important;
+            background: red !important;
+        }
+
+        .progress-bar-container {
+            width: 100%;
+            height: 20px;
+            background: #fff;
+            border: 3px solid #000;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: #7ED957;
+            width: 100%;
+            transition: width 0.3s;
+        }
+
+        .backdrop-cyber {
+            background-color: #2D3436;
+            color: #fff;
+        }
+
+        .backdrop-pastel {
+            background-color: #FFD1DC;
+        }
+
+        .backdrop-matrix {
+            background-color: #000;
+            border-color: #00FF41;
+        }
+
+        /* Swatches */
+        .swatch {
+            width: 14px;
+            height: 14px;
+            border: 1px solid black;
+            display: inline-block;
+            cursor: pointer;
+        }
+    </style>
+</head>
+
+<body class="p-4 md:p-8">
+
+    <!-- SHOP MODAL -->
+    <div id="shop-modal">
+        <div class="neo-box bg-white p-8 max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleShop()" class="absolute top-4 right-4 neo-button danger px-4 py-2">X</button>
+            <h2 class="text-3xl font-black mb-2 text-center uppercase tracking-tighter">Neo-Shop 🛒</h2>
+            <div class="text-center mb-6 font-bold bg-yellow-400 border-2 border-black p-2">
+                WALLET: <span id="modal-wallet">0</span> 🪙
+            </div>
+
+            <div class="space-y-6">
+                <!-- Consumables -->
+                <div>
+                    <h3 class="font-black border-b-4 border-black mb-2">UTILITIES</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between border-b-2 border-black pb-2">
+                            <div>
+                                <div class="font-black text-sm">ENERGY DRINK</div>
+                                <div class="text-[10px]">Hunger Refill</div>
+                            </div>
+                            <button onclick="buyItem('drink')" class="neo-button shop-btn text-xs px-3">10 🪙</button>
+                        </div>
+                        <div class="flex items-center justify-between border-b-2 border-black pb-2">
+                            <div>
+                                <div class="font-black text-sm">LUXURY SOAP</div>
+                                <div class="text-[10px]">Hygiene Refill</div>
+                            </div>
+                            <button onclick="buyItem('soap')" class="neo-button shop-btn text-xs px-3">15 🪙</button>
+                        </div>
+                        <div class="flex items-center justify-between border-b-2 border-black pb-2">
+                            <div>
+                                <div class="font-black text-sm">AUTO-PETTER</div>
+                                <div class="text-[10px]">Social Lockdown (10m)</div>
+                            </div>
+                            <button onclick="buyItem('autopet')" class="neo-button shop-btn text-xs px-3">50 🪙</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Shades Selection -->
+                <div>
+                    <h3 class="font-black border-b-4 border-black mb-2">COOL SHADES (PERM)</h3>
+                    <div class="grid grid-cols-1 gap-2">
+                        <div class="flex items-center justify-between border-b-2 border-black pb-2">
+                            <div class="flex gap-1 flex-wrap max-w-[150px]">
+                                <button onclick="buyShades('#FF3131')" class="swatch bg-[#FF3131]"></button>
+                                <button onclick="buyShades('#FF69B4')" class="swatch bg-[#FF69B4]"></button>
+                                <button onclick="buyShades('#32CD32')" class="swatch bg-[#32CD32]"></button>
+                                <button onclick="buyShades('#00FFFF')" class="swatch bg-[#00FFFF]"></button>
+                                <button onclick="buyShades('#808080')" class="swatch bg-[#808080]"></button>
+                            </div>
+                            <div class="text-[9px] font-bold uppercase">Pick Color -></div>
+                            <div class="font-black text-sm">100 🪙</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skin Selection -->
+                <div>
+                    <h3 class="font-black border-b-4 border-black mb-2">SKIN TONES</h3>
+                    <div class="space-y-2">
+                        <div class="flex items-center justify-between border-b-2 border-black pb-2">
+                            <div class="flex gap-2 items-center">
+                                <button onclick="buySkin('#FFFFFF')"
+                                    class="neo-button bg-white text-black p-1 text-[10px] border-2">WHITE</button>
+                                <button onclick="buySkin('#FF3131')"
+                                    class="neo-button bg-red-600 text-white p-1 text-[10px] border-2">RED</button>
+                                <button onclick="buySkin('#FF69B4')"
+                                    class="neo-button bg-pink-400 text-white p-1 text-[10px] border-2">PINK</button>
+                                <button onclick="buySkin('#006400')"
+                                    class="neo-button bg-green-900 text-white p-1 text-[10px] border-2">D.GREEN</button>
+                            </div>
+                            <div class="font-black text-sm">75 🪙</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- HEADER / NAVIGATION AREA -->
+    <div class="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <h1 class="text-5xl font-black italic tracking-tighter">BIT-BIT 1.0</h1>
+        <div class="flex items-center gap-4">
+            <div class="neo-box px-6 py-2 bg-yellow-400 font-black text-2xl flex items-center gap-2">
+                <span id="wallet-display">0</span> 🪙
+            </div>
+            <button onclick="toggleShop()" class="neo-button shop-btn py-3 px-8 text-xl">OPEN SHOP 🛒</button>
+        </div>
+    </div>
+
+    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-8">
+
+        <!-- SIDEBAR 1: STATS -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="neo-box p-6">
+                <h2 class="text-2xl font-black mb-4 uppercase">Status</h2>
+                <div class="space-y-4">
+                    <div>
+                        <div class="flex justify-between font-bold text-sm mb-1"><span>HUNGER</span><span
+                                id="stat-hunger">100%</span></div>
+                        <div class="progress-bar-container">
+                            <div id="bar-hunger" class="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between font-bold text-sm mb-1"><span>HYGIENE</span><span
+                                id="stat-hygiene">100%</span></div>
+                        <div class="progress-bar-container">
+                            <div id="bar-hygiene" class="progress-fill"></div>
+                        </div>
+                    </div>
+                    <div>
+                        <div class="flex justify-between font-bold text-sm mb-1 text-red-600"><span>SOCIAL
+                                (CRITICAL)</span><span id="stat-social">100%</span></div>
+                        <div class="progress-bar-container">
+                            <div id="bar-social" class="progress-fill bg-red-500"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="neo-box p-6 space-y-4">
+                <h2 class="text-xl font-black uppercase">Interactions</h2>
+                <div class="grid grid-cols-2 gap-2">
+                    <button onclick="feed()" class="neo-button success">FEED 🍎</button>
+                    <button onclick="clean()" class="neo-button">CLEAN 🧼</button>
+                    <button id="sleep-btn" onclick="toggleSleep()" class="neo-button warning">SLEEP 💤</button>
+                    <button onclick="pet()" class="neo-button danger">PET 👋</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAIN STAGE: THE PET -->
+        <div id="main-stage"
+            class="lg:col-span-1 neo-box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden">
+            <div id="status-bubble" class="absolute top-10 neo-box px-4 py-2 font-bold hidden z-20">I'm hungry!</div>
+
+            <div id="pet-container">
+                <div id="pet-body" class="pixel-pet">
+                    <div class="pet-face">
+                        <div class="eyes-row">
+                            <div id="shades"></div>
+                            <div class="eye"></div>
+                            <div class="eye"></div>
+                        </div>
+                        <div id="pet-mouth" class="mouth"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="death-screen"
+                class="absolute inset-0 bg-black text-white flex-col items-center justify-center hidden z-50 text-center p-4">
+                <h2 class="text-6xl font-black mb-4">BOOM.</h2>
+                <p class="text-xl mb-6">You ignored Bit-Bit's social needs...</p>
+                <button onclick="resetGame()" class="neo-button success">REBOOT SYSTEM</button>
+            </div>
+        </div>
+
+        <!-- POMODORO & LOGS -->
+        <div class="lg:col-span-1 space-y-6">
+            <div class="neo-box p-6 bg-white">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-black uppercase">Focus Timer</h2>
+                    <div id="timer-status" class="px-3 py-1 bg-black text-white text-xs font-bold">READY</div>
+                </div>
+
+                <div class="text-7xl font-black text-center mb-8 tabular-nums" id="timer-display">25:00</div>
+
+                <div class="grid grid-cols-2 gap-4">
+                    <button id="timer-toggle" onclick="toggleTimer()" class="neo-button success">START</button>
+                    <button onclick="resetTimer()" class="neo-button">RESET</button>
+                </div>
+
+                <div class="mt-6 flex gap-2">
+                    <button onclick="setTimerMode('focus')"
+                        class="flex-1 text-[10px] font-black border-2 border-black py-1 hover:bg-black hover:text-white transition uppercase">Focus
+                        Mode</button>
+                    <button onclick="setTimerMode('break')"
+                        class="flex-1 text-[10px] font-black border-2 border-black py-1 hover:bg-black hover:text-white transition uppercase">Break
+                        Mode</button>
+                </div>
+            </div>
+
+            <div class="neo-box p-6 bg-[#CB6CE6]">
+                <h2 class="text-xl font-black mb-2 text-white">SYSTEM LOGS</h2>
+                <div id="logs" class="bg-white border-4 border-black p-2 h-32 overflow-y-auto font-mono text-xs">
+                    > System initialized...<br>
+                    > Bit-Bit is online...
+                </div>
+                <div class="mt-4">
+                    <select id="bg-select" onchange="changeBackdrop()"
+                        class="w-full p-1 border-2 border-black font-bold text-xs bg-white mb-2">
+                        <option value="default">Classic Yellow Theme</option>
+                        <option value="cyber">Cyber Night Theme</option>
+                        <option value="pastel">Soft Pastel Theme</option>
+                    </select>
+                    <select id="music-select" onchange="changeMusic()"
+                        class="w-full p-1 border-2 border-black font-bold text-xs bg-white">
+                        <option value="">No Music</option>
+                        <option value="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3">Lofi Chill
+                        </option>
+                        <option value="music/soundhelix_bits.mp3">8-Bit Adventure
+                        </option>
+                        <option value="music/sea_waves.mp3">Sea Waves Ambiance
+                        </option>
+                        <option value="music/rain.mp3">Rain Ambiance
+                        </option>
+                        <option value="music/lofi.mp3">Lofi Ambiance
+                        </option>
+                        <option value="music/brown_noise.mp3">Brown Noise
+                        </option>
+                    </select>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <audio id="bg-audio" loop></audio>
+    <audio id="sfx-alert" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
+
+    <script>
+        // State Management
+        let stats = {
+            hunger: 100,
+            hygiene: 100,
+            social: 100,
+            isSleeping: false,
+            isDead: false,
+            coins: 0,
+            isAutoPetting: false,
+            hasShades: false,
+            shadesColor: '#5DE2E7',
+            skinColor: '#000000'
+        };
+
+        let timer = {
+            seconds: 1500,
+            isActive: false,
+            interval: null,
+            mode: 'focus',
+            miningTick: 0
+        };
+
+        const petBody = document.getElementById('pet-body');
+        const petContainer = document.getElementById('pet-container');
+        const petMouth = document.getElementById('pet-mouth');
+        const logs = document.getElementById('logs');
+        const bgAudio = document.getElementById('bg-audio');
+
+        function init() {
+            updateUI();
+            startDegradation();
+        }
+
+        function log(msg) {
+            const entry = document.createElement('div');
+            entry.innerHTML = `> ${msg}`;
+            logs.prepend(entry);
+        }
+
+        function startDegradation() {
+            setInterval(() => {
+                if (stats.isDead) return;
+
+                if (!stats.isSleeping) {
+                    stats.hunger = Math.max(0, stats.hunger - 0.5);
+                    stats.hygiene = Math.max(0, stats.hygiene - 0.3);
+                    // Active social drop rate is 1.0 per second
+                    if (!stats.isAutoPetting) stats.social = Math.max(0, stats.social - 1);
+                } else {
+                    stats.hunger = Math.max(0, stats.hunger - 0.1);
+                    // Sleep drop rate is now 0.1 per second (10x slower than active)
+                    if (!stats.isAutoPetting) stats.social = Math.max(0, stats.social - 0.1);
+                }
+
+                checkCondition();
+                updateUI();
+            }, 1000);
+        }
+
+        function checkCondition() {
+            if (stats.social <= 0) {
+                triggerExplosion();
+            } else if (stats.social < 20) {
+                petBody.classList.add('exploding');
+            } else {
+                if (!stats.isDead) petBody.classList.remove('exploding');
+            }
+
+            if (stats.hunger < 30) petContainer.classList.add('hungry');
+            else petContainer.classList.remove('hungry');
+
+            if (stats.hygiene < 30) petContainer.classList.add('dirty');
+            else petContainer.classList.remove('dirty');
+        }
+
+        function triggerExplosion() {
+            if (stats.isDead) return;
+            stats.isDead = true;
+            document.getElementById('death-screen').style.display = 'flex';
+            document.getElementById('timer-status').innerText = "SYSTEM FAILURE";
+            document.getElementById('timer-status').classList.add('bg-red-600');
+            log("FATAL ERROR: BIT-BIT SELF-DESTRUCTED.");
+        }
+
+        function resetGame() {
+            // Keep shades and skin!
+            const oldShades = stats.hasShades;
+            const oldShadesCol = stats.shadesColor;
+            const oldSkinCol = stats.skinColor;
+            const oldCoins = stats.coins;
+
+            stats = {
+                hunger: 100,
+                hygiene: 100,
+                social: 100,
+                isSleeping: false,
+                isDead: false,
+                coins: oldCoins, // Keep their coins!
+                isAutoPetting: false,
+                hasShades: oldShades,
+                shadesColor: oldShadesCol,
+                skinColor: oldSkinCol
+            };
+
+            document.getElementById('death-screen').style.display = 'none';
+            document.getElementById('timer-status').classList.remove('bg-red-600');
+
+            // Reset the timer too so they start fresh
+            resetTimer();
+
+            // Re-apply persistent cosmetics
+            if (stats.hasShades) {
+                document.getElementById('shades').style.display = 'block';
+                document.getElementById('shades').style.borderColor = stats.shadesColor;
+            }
+            petBody.style.background = stats.skinColor;
+
+            petBody.classList.remove('exploding');
+            petMouth.classList.remove('happy-mouth');
+            updateUI();
+            log("System Rebooted. Style preserved.");
+        }
+
+        function feed() {
+            if (stats.isDead || stats.isSleeping) return;
+            stats.hunger = Math.min(100, stats.hunger + 20);
+            log("Fed Bit-Bit.");
+            updateUI();
+        }
+
+        function clean() {
+            if (stats.isDead || stats.isSleeping) return;
+            stats.hygiene = Math.min(100, stats.hygiene + 30);
+            petContainer.classList.remove('dirty');
+            log("Cleaned Bit-Bit.");
+            updateUI();
+        }
+
+        function pet() {
+            if (stats.isDead || stats.isSleeping) return;
+            stats.social = Math.min(100, stats.social + 15);
+            petMouth.classList.add('happy-mouth');
+            petBody.classList.add('pet-joy-jump');
+            log("Bit-Bit is happy!");
+            updateUI();
+            setTimeout(() => {
+                petMouth.classList.remove('happy-mouth');
+                petBody.classList.remove('pet-joy-jump');
+            }, 800);
+        }
+
+        function toggleSleep() {
+            if (stats.isDead) return;
+            stats.isSleeping = !stats.isSleeping;
+            const btn = document.getElementById('sleep-btn');
+            if (stats.isSleeping) {
+                petContainer.classList.add('sleeping');
+                btn.innerText = "WAKE UP ☀️";
+                log("Bit-Bit went to sleep (10x slower social decay).");
+            } else {
+                petContainer.classList.remove('sleeping');
+                btn.innerText = "SLEEP 💤";
+                log("Bit-Bit woke up.");
+            }
+        }
+
+        function toggleShop() {
+            const modal = document.getElementById('shop-modal');
+            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
+            updateUI();
+        }
+
+        function buyItem(item) {
+            if (stats.isDead) return;
+            const prices = { drink: 10, soap: 15, autopet: 50 };
+            const price = prices[item];
+
+            if (stats.coins >= price) {
+                stats.coins -= price;
+                if (item === 'drink') stats.hunger = 100;
+                else if (item === 'soap') stats.hygiene = 100;
+                else if (item === 'autopet') {
+                    stats.isAutoPetting = true;
+                    log("AUTO-PETTER ACTIVE (600s)");
+                    setTimeout(() => { stats.isAutoPetting = false; log("AUTO-PETTER EXPIRED."); }, 600000);
+                }
+                updateUI();
+            } else { log("NOT ENOUGH COINS."); }
+        }
+
+        function buyShades(color) {
+            if (stats.isDead) return;
+            if (stats.coins >= 100) {
+                stats.coins -= 100;
+                stats.hasShades = true;
+                stats.shadesColor = color;
+                const s = document.getElementById('shades');
+                s.style.display = 'block';
+                s.style.borderColor = color;
+                log(`BOUGHT SHADES IN ${color}.`);
+                updateUI();
+            } else { log("NOT ENOUGH COINS."); }
+        }
+
+        function buySkin(color) {
+            if (stats.isDead) return;
+            if (stats.coins >= 75) {
+                stats.coins -= 75;
+                stats.skinColor = color;
+                petBody.style.background = color;
+                log(`BOUGHT SKIN TONE: ${color}.`);
+                updateUI();
+            } else { log("NOT ENOUGH COINS."); }
+        }
+
+        function updateUI() {
+            document.getElementById('stat-hunger').innerText = Math.floor(stats.hunger) + '%';
+            document.getElementById('bar-hunger').style.width = stats.hunger + '%';
+            document.getElementById('stat-hygiene').innerText = Math.floor(stats.hygiene) + '%';
+            document.getElementById('bar-hygiene').style.width = stats.hygiene + '%';
+            document.getElementById('stat-social').innerText = Math.floor(stats.social) + '%';
+            document.getElementById('bar-social').style.width = stats.social + '%';
+            document.getElementById('wallet-display').innerText = stats.coins;
+            document.getElementById('modal-wallet').innerText = stats.coins;
+
+            // Re-enforce colors
+            petBody.style.background = stats.skinColor;
+            if (stats.hasShades) {
+                const s = document.getElementById('shades');
+                s.style.display = 'block';
+                s.style.borderColor = stats.shadesColor;
+            }
+        }
+
+        function changeBackdrop() {
+            const val = document.getElementById('bg-select').value;
+            const stage = document.getElementById('main-stage');
+            stage.className = "lg:col-span-1 neo-box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden";
+            if (val === 'cyber') stage.classList.add('backdrop-cyber');
+            if (val === 'pastel') stage.classList.add('backdrop-pastel');
+            if (val === 'matrix') stage.classList.add('backdrop-matrix');
+        }
+
+        function changeMusic() {
+            const url = document.getElementById('music-select').value;
+            if (url) {
+                bgAudio.src = url;
+                bgAudio.play().catch(e => console.log("Audio blocked"));
+            } else {
+                bgAudio.pause();
+            }
+        }
+
+        function setTimerMode(mode) {
+            if (stats.isDead) return;
+            timer.mode = mode;
+            timer.seconds = (mode === 'focus') ? 1500 : 300;
+            updateTimerDisplay();
+            document.getElementById('timer-status').innerText = mode.toUpperCase();
+        }
+
+        function toggleTimer() {
+            if (stats.isDead) return;
+            if (timer.isActive) {
+                clearInterval(timer.interval);
+                document.getElementById('timer-toggle').innerText = "START";
+            } else {
+                timer.interval = setInterval(() => {
+                    if (stats.isDead) {
+                        clearInterval(timer.interval);
+                        timer.isActive = false;
+                        document.getElementById('timer-toggle').innerText = "START";
+                        return;
+                    }
+
+                    timer.seconds--;
+                    timer.miningTick++;
+
+                    // Only mine if pet is alive
+                    if (timer.miningTick >= 10 && !stats.isDead) {
+                        stats.coins += 1;
+                        timer.miningTick = 0;
+                        updateUI();
+                    }
+                    updateTimerDisplay();
+                    if (timer.seconds <= 0) {
+                        clearInterval(timer.interval);
+                        timer.isActive = false;
+                        document.getElementById('timer-toggle').innerText = "START";
+                        document.getElementById('sfx-alert').play();
+                        showCustomNotification("TIME'S UP!");
+                    }
+                }, 1000);
+                document.getElementById('timer-toggle').innerText = "PAUSE";
+            }
+            timer.isActive = !timer.isActive;
+        }
+
+        function resetTimer() {
+            clearInterval(timer.interval);
+            timer.isActive = false;
+            timer.miningTick = 0;
+            setTimerMode(timer.mode);
+            document.getElementById('timer-toggle').innerText = "START";
+        }
+
+        function updateTimerDisplay() {
+            const mins = Math.floor(timer.seconds / 60);
+            const secs = timer.seconds % 60;
+            document.getElementById('timer-display').innerText =
+                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        }
+
+        function showCustomNotification(text) {
+            const bubble = document.getElementById('status-bubble');
+            bubble.innerText = text;
+            bubble.style.display = 'block';
+            setTimeout(() => bubble.style.display = 'none', 5000);
+        }
+
+        window.onload = init;
+    </script>
+</body>
+
+</html>
