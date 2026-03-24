@@ -23,14 +23,14 @@
             transition: background 0.3s ease;
         }
 
-        .neo-box {
+        .box {
             background: #fff;
             border: var(--border-width) solid #000;
             box-shadow: 8px 8px 0px #000;
             transition: all 0.2s ease;
         }
 
-        .neo-button {
+        .btn {
             background: #5DE2E7;
             border: var(--border-width) solid #000;
             box-shadow: 4px 4px 0px #000;
@@ -44,37 +44,37 @@
             gap: 8px;
         }
 
-        .neo-button:hover:not(:disabled) {
+        .btn:hover:not(:disabled) {
             transform: translate(-2px, -2px);
             box-shadow: 6px 6px 0px #000;
         }
 
-        .neo-button:active:not(:disabled) {
+        .btn:active:not(:disabled) {
             transform: translate(2px, 2px);
             box-shadow: 2px 2px 0px #000;
         }
 
-        .neo-button:disabled {
+        .btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             box-shadow: 2px 2px 0px #000;
             opacity: 0.7;
         }
 
-        .neo-button.danger {
+        .btn.danger {
             background: #FF3131;
             color: white;
         }
 
-        .neo-button.warning {
+        .btn.warning {
             background: #FFDE59;
         }
 
-        .neo-button.success {
+        .btn.success {
             background: #7ED957;
         }
 
-        .neo-button.shop-btn {
+        .btn.shop-btn {
             background: #CB6CE6;
             color: white;
         }
@@ -92,7 +92,7 @@
         }
 
         /* Tamagotchi Animations */
-        #pet-container {
+        #pcont {
             width: 200px;
             height: 200px;
             position: relative;
@@ -102,7 +102,7 @@
             transition: transform 0.5s;
         }
 
-        .pixel-pet {
+        .bit-bit {
             width: 120px;
             height: 120px;
             background: #000;
@@ -112,7 +112,7 @@
             transition: transform 0.2s, background 0.3s;
         }
 
-        .pet-face {
+        .pface {
             position: absolute;
             top: 40%;
             left: 50%;
@@ -163,11 +163,11 @@
             width: 30px !important;
         }
 
-        .pet-joy-jump {
+        .pjoyj {
             animation: joy-jump 0.4s ease !important;
         }
 
-        .sleeping .pixel-pet {
+        .sleeping .bit-bit {
             opacity: 0.5;
             animation: none;
             transform: translateY(20px);
@@ -177,7 +177,7 @@
             height: 2px;
         }
 
-        .hungry .pixel-pet {
+        .hungry .bit-bit {
             background: #FF3131 !important;
         }
 
@@ -248,7 +248,7 @@
             background: red !important;
         }
 
-        .progress-bar-container {
+        .progress_bcont {
             width: 100%;
             height: 20px;
             background: #fff;
@@ -291,8 +291,8 @@
 
     <!-- SHOP MODAL -->
     <div id="shop-modal">
-        <div class="neo-box bg-white p-8 max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
-            <button onclick="toggleShop()" class="absolute top-4 right-4 neo-button danger px-4 py-2">X</button>
+        <div class="box bg-white p-8 max-w-lg w-full relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleShop()" class="absolute top-4 right-4 btn danger px-4 py-2">X</button>
             <h2 class="text-3xl font-black mb-2 text-center uppercase tracking-tighter">Neo-Shop 🛒</h2>
             <div class="text-center mb-6 font-bold bg-yellow-400 border-2 border-black p-2">
                 WALLET: <span id="modal-wallet">0</span> 🪙
@@ -308,21 +308,21 @@
                                 <div class="font-black text-sm">ENERGY DRINK</div>
                                 <div class="text-[10px]">Hunger Refill</div>
                             </div>
-                            <button onclick="buyItem('drink')" class="neo-button shop-btn text-xs px-3">10 🪙</button>
+                            <button onclick="buyItem('drink')" class="btn shop-btn text-xs px-3">10 🪙</button>
                         </div>
                         <div class="flex items-center justify-between border-b-2 border-black pb-2">
                             <div>
                                 <div class="font-black text-sm">LUXURY SOAP</div>
                                 <div class="text-[10px]">Hygiene Refill</div>
                             </div>
-                            <button onclick="buyItem('soap')" class="neo-button shop-btn text-xs px-3">15 🪙</button>
+                            <button onclick="buyItem('soap')" class="btn shop-btn text-xs px-3">15 🪙</button>
                         </div>
                         <div class="flex items-center justify-between border-b-2 border-black pb-2">
                             <div>
                                 <div class="font-black text-sm">AUTO-PETTER</div>
                                 <div class="text-[10px]">Social Lockdown (10m)</div>
                             </div>
-                            <button onclick="buyItem('autopet')" class="neo-button shop-btn text-xs px-3">50 🪙</button>
+                            <button onclick="buyItem('autopet')" class="btn shop-btn text-xs px-3">50 🪙</button>
                         </div>
                     </div>
                 </div>
@@ -352,13 +352,13 @@
                         <div class="flex items-center justify-between border-b-2 border-black pb-2">
                             <div class="flex gap-2 items-center">
                                 <button onclick="buySkin('#FFFFFF')"
-                                    class="neo-button bg-white text-black p-1 text-[10px] border-2">WHITE</button>
+                                    class="btn bg-white text-black p-1 text-[10px] border-2">WHITE</button>
                                 <button onclick="buySkin('#FF3131')"
-                                    class="neo-button bg-red-600 text-white p-1 text-[10px] border-2">RED</button>
+                                    class="btn bg-red-600 text-white p-1 text-[10px] border-2">RED</button>
                                 <button onclick="buySkin('#FF69B4')"
-                                    class="neo-button bg-pink-400 text-white p-1 text-[10px] border-2">PINK</button>
+                                    class="btn bg-pink-400 text-white p-1 text-[10px] border-2">PINK</button>
                                 <button onclick="buySkin('#006400')"
-                                    class="neo-button bg-green-900 text-white p-1 text-[10px] border-2">D.GREEN</button>
+                                    class="btn bg-green-900 text-white p-1 text-[10px] border-2">D.GREEN</button>
                             </div>
                             <div class="font-black text-sm">75 🪙</div>
                         </div>
@@ -372,10 +372,10 @@
     <div class="max-w-7xl mx-auto mb-8 flex flex-col md:flex-row justify-between items-center gap-4">
         <h1 class="text-5xl font-black italic tracking-tighter">BIT-BIT 1.0</h1>
         <div class="flex items-center gap-4">
-            <div class="neo-box px-6 py-2 bg-yellow-400 font-black text-2xl flex items-center gap-2">
+            <div class="box px-6 py-2 bg-yellow-400 font-black text-2xl flex items-center gap-2">
                 <span id="wallet-display">0</span> 🪙
             </div>
-            <button onclick="toggleShop()" class="neo-button shop-btn py-3 px-8 text-xl">OPEN SHOP 🛒</button>
+            <button onclick="toggleShop()" class="btn shop-btn py-3 px-8 text-xl">OPEN SHOP 🛒</button>
         </div>
     </div>
 
@@ -383,52 +383,52 @@
 
         <!-- SIDEBAR 1: STATS -->
         <div class="lg:col-span-1 space-y-6">
-            <div class="neo-box p-6">
+            <div class="box p-6">
                 <h2 class="text-2xl font-black mb-4 uppercase">Status</h2>
                 <div class="space-y-4">
                     <div>
                         <div class="flex justify-between font-bold text-sm mb-1"><span>HUNGER</span><span
                                 id="stat-hunger">100%</span></div>
-                        <div class="progress-bar-container">
+                        <div class="progress_bcont">
                             <div id="bar-hunger" class="progress-fill"></div>
                         </div>
                     </div>
                     <div>
                         <div class="flex justify-between font-bold text-sm mb-1"><span>HYGIENE</span><span
                                 id="stat-hygiene">100%</span></div>
-                        <div class="progress-bar-container">
+                        <div class="progress_bcont">
                             <div id="bar-hygiene" class="progress-fill"></div>
                         </div>
                     </div>
                     <div>
                         <div class="flex justify-between font-bold text-sm mb-1 text-red-600"><span>SOCIAL
                                 (CRITICAL)</span><span id="stat-social">100%</span></div>
-                        <div class="progress-bar-container">
+                        <div class="progress_bcont">
                             <div id="bar-social" class="progress-fill bg-red-500"></div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <div class="neo-box p-6 space-y-4">
+            <div class="box p-6 space-y-4">
                 <h2 class="text-xl font-black uppercase">Interactions</h2>
                 <div class="grid grid-cols-2 gap-2">
-                    <button onclick="feed()" class="neo-button success">FEED 🍎</button>
-                    <button onclick="clean()" class="neo-button">CLEAN 🧼</button>
-                    <button id="sleep-btn" onclick="toggleSleep()" class="neo-button warning">SLEEP 💤</button>
-                    <button onclick="pet()" class="neo-button danger">PET 👋</button>
+                    <button onclick="feed()" class="btn success">FEED 🍎</button>
+                    <button onclick="clean()" class="btn">CLEAN 🧼</button>
+                    <button id="sleep-btn" onclick="toggleSleep()" class="btn warning">SLEEP 💤</button>
+                    <button onclick="pet()" class="btn danger">PET 👋</button>
                 </div>
             </div>
         </div>
 
         <!-- MAIN STAGE: THE PET -->
         <div id="main-stage"
-            class="lg:col-span-1 neo-box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden">
-            <div id="status-bubble" class="absolute top-10 neo-box px-4 py-2 font-bold hidden z-20">I'm hungry!</div>
+            class="lg:col-span-1 box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden">
+            <div id="status-bubble" class="absolute top-10 box px-4 py-2 font-bold hidden z-20">I'm hungry!</div>
 
-            <div id="pet-container">
-                <div id="pet-body" class="pixel-pet">
-                    <div class="pet-face">
+            <div id="pcont">
+                <div id="pet-body" class="bit-bit">
+                    <div class="pface">
                         <div class="eyes-row">
                             <div id="shades"></div>
                             <div class="eye"></div>
@@ -443,13 +443,13 @@
                 class="absolute inset-0 bg-black text-white flex-col items-center justify-center hidden z-50 text-center p-4">
                 <h2 class="text-6xl font-black mb-4">BOOM.</h2>
                 <p class="text-xl mb-6">You ignored Bit-Bit's social needs...</p>
-                <button onclick="resetGame()" class="neo-button success">REBOOT SYSTEM</button>
+                <button onclick="resetGame()" class="btn success">REBOOT SYSTEM</button>
             </div>
         </div>
 
         <!-- POMODORO & LOGS -->
         <div class="lg:col-span-1 space-y-6">
-            <div class="neo-box p-6 bg-white">
+            <div class="box p-6 bg-white">
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-black uppercase">Focus Timer</h2>
                     <div id="timer-status" class="px-3 py-1 bg-black text-white text-xs font-bold">READY</div>
@@ -458,8 +458,8 @@
                 <div class="text-7xl font-black text-center mb-8 tabular-nums" id="timer-display">25:00</div>
 
                 <div class="grid grid-cols-2 gap-4">
-                    <button id="timer-toggle" onclick="toggleTimer()" class="neo-button success">START</button>
-                    <button onclick="resetTimer()" class="neo-button">RESET</button>
+                    <button id="timer-toggle" onclick="toggleTimer()" class="btn success">START</button>
+                    <button onclick="resetTimer()" class="btn">RESET</button>
                 </div>
 
                 <div class="mt-6 flex gap-2">
@@ -472,7 +472,7 @@
                 </div>
             </div>
 
-            <div class="neo-box p-6 bg-[#CB6CE6]">
+            <div class="box p-6 bg-[#CB6CE6]">
                 <h2 class="text-xl font-black mb-2 text-white">SYSTEM LOGS</h2>
                 <div id="logs" class="bg-white border-4 border-black p-2 h-32 overflow-y-auto font-mono text-xs">
                     > System initialized...<br>
@@ -508,330 +508,316 @@
     <audio id="sfx-alert" src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg"></audio>
 
     <script>
-        // State Management
-        let stats = {
-            hunger: 100,
-            hygiene: 100,
-            social: 100,
-            isSleeping: false,
-            isDead: false,
-            coins: 0,
-            isAutoPetting: false,
-            hasShades: false,
-            shadesColor: '#5DE2E7',
-            skinColor: '#000000'
-        };
+        let p_state_obj = {
+            current_hunger_level: 100,
+            cleanliness_val: 100,
+            stuff: 100,
+            snoozin: false,
+            ded: false,
+            money: 0,
+            auto_pet_active: false,
+            got_shades: false,
+            shades_col: '#5DE2E7',
+            skin_paint: '#000000'
+        }
 
-        let timer = {
-            seconds: 1500,
-            isActive: false,
-            interval: null,
-            mode: 'focus',
-            miningTick: 0
-        };
+        let t_things = {
+            sec_left: 1500,
+            running_rn: false,
+            tick_tock: null,
+            cur_mode: 'focus',
+            tick_count: 0
+        }
 
-        const petBody = document.getElementById('pet-body');
-        const petContainer = document.getElementById('pet-container');
-        const petMouth = document.getElementById('pet-mouth');
-        const logs = document.getElementById('logs');
-        const bgAudio = document.getElementById('bg-audio');
+        const the_guy = document.getElementById('pet-body')
+        const box_wrapper = document.getElementById('pcont')
+        const mouth_element = document.getElementById('pet-mouth')
+        const log_div_area = document.getElementById('logs')
+        const tunes = document.getElementById('bg-audio')
 
         function init() {
-            updateUI();
-            startDegradation();
+            update_scrn()
+            start_drain()
         }
 
-        function log(msg) {
-            const entry = document.createElement('div');
-            entry.innerHTML = `> ${msg}`;
-            logs.prepend(entry);
+        function wut_happen(m) {
+            const temp_div = document.createElement('div')
+            temp_div.innerHTML = '> ' + m
+            log_div_area.prepend(temp_div)
         }
 
-        function startDegradation() {
+        function start_drain() {
             setInterval(() => {
-                if (stats.isDead) return;
+                if (p_state_obj.ded) { return }
 
-                if (!stats.isSleeping) {
-                    stats.hunger = Math.max(0, stats.hunger - 0.5);
-                    stats.hygiene = Math.max(0, stats.hygiene - 0.3);
-                    // Active social drop rate is 1.0 per second
-                    if (!stats.isAutoPetting) stats.social = Math.max(0, stats.social - 1);
+                if (p_state_obj.snoozin === false) {
+                    p_state_obj.current_hunger_level = Math.max(0, p_state_obj.current_hunger_level - 0.5)
+                    p_state_obj.cleanliness_val = Math.max(0, p_state_obj.cleanliness_val - 0.3)
+                    if (!p_state_obj.auto_pet_active) p_state_obj.stuff = Math.max(0, p_state_obj.stuff - 1)
                 } else {
-                    stats.hunger = Math.max(0, stats.hunger - 0.1);
-                    // Sleep drop rate is now 0.1 per second (10x slower than active)
-                    if (!stats.isAutoPetting) stats.social = Math.max(0, stats.social - 0.1);
+                    p_state_obj.current_hunger_level = Math.max(0, p_state_obj.current_hunger_level - 0.1)
+                    if (!p_state_obj.auto_pet_active) p_state_obj.stuff = Math.max(0, p_state_obj.stuff - 0.1)
                 }
 
-                checkCondition();
-                updateUI();
-            }, 1000);
+                check_how_we_doin()
+                update_scrn()
+            }, 1000)
         }
 
-        function checkCondition() {
-            if (stats.social <= 0) {
-                triggerExplosion();
-            } else if (stats.social < 20) {
-                petBody.classList.add('exploding');
-            } else {
-                if (!stats.isDead) petBody.classList.remove('exploding');
+        function check_how_we_doin() {
+            if (p_state_obj.stuff <= 0) go_boom()
+            else if (p_state_obj.stuff < 20) { the_guy.classList.add('exploding') } else {
+                if (!p_state_obj.ded) { the_guy.classList.remove('exploding') }
             }
 
-            if (stats.hunger < 30) petContainer.classList.add('hungry');
-            else petContainer.classList.remove('hungry');
+            p_state_obj.current_hunger_level < 30 ? box_wrapper.classList.add('hungry') : box_wrapper.classList.remove('hungry')
 
-            if (stats.hygiene < 30) petContainer.classList.add('dirty');
-            else petContainer.classList.remove('dirty');
+            if (p_state_obj.cleanliness_val < 30) {
+                box_wrapper.classList.add('dirty')
+            } else {
+                box_wrapper.classList.remove('dirty')
+            }
         }
 
-        function triggerExplosion() {
-            if (stats.isDead) return;
-            stats.isDead = true;
-            document.getElementById('death-screen').style.display = 'flex';
-            document.getElementById('timer-status').innerText = "SYSTEM FAILURE";
-            document.getElementById('timer-status').classList.add('bg-red-600');
-            log("FATAL ERROR: BIT-BIT SELF-DESTRUCTED.");
+        function go_boom() {
+            if (p_state_obj.ded) return
+            p_state_obj.ded = true
+            document.getElementById('death-screen').style.display = 'flex'
+            document.getElementById('timer-status').innerText = "SYSTEM FAILURE"
+            document.getElementById('timer-status').classList.add('bg-red-600')
+            wut_happen("FATAL ERROR: BIT-BIT SELF-DESTRUCTED.")
         }
 
         function resetGame() {
-            // Keep shades and skin!
-            const oldShades = stats.hasShades;
-            const oldShadesCol = stats.shadesColor;
-            const oldSkinCol = stats.skinColor;
-            const oldCoins = stats.coins;
+            let old_s = p_state_obj.got_shades
+            let old_sc = p_state_obj.shades_col
+            let old_sk = p_state_obj.skin_paint
+            let money_saved = p_state_obj.money
 
-            stats = {
-                hunger: 100,
-                hygiene: 100,
-                social: 100,
-                isSleeping: false,
-                isDead: false,
-                coins: oldCoins, // Keep their coins!
-                isAutoPetting: false,
-                hasShades: oldShades,
-                shadesColor: oldShadesCol,
-                skinColor: oldSkinCol
-            };
-
-            document.getElementById('death-screen').style.display = 'none';
-            document.getElementById('timer-status').classList.remove('bg-red-600');
-
-            // Reset the timer too so they start fresh
-            resetTimer();
-
-            // Re-apply persistent cosmetics
-            if (stats.hasShades) {
-                document.getElementById('shades').style.display = 'block';
-                document.getElementById('shades').style.borderColor = stats.shadesColor;
+            p_state_obj = {
+                current_hunger_level: 100, cleanliness_val: 100, stuff: 100, snoozin: false, ded: false,
+                money: money_saved, auto_pet_active: false, got_shades: old_s, shades_col: old_sc, skin_paint: old_sk
             }
-            petBody.style.background = stats.skinColor;
 
-            petBody.classList.remove('exploding');
-            petMouth.classList.remove('happy-mouth');
-            updateUI();
-            log("System Rebooted. Style preserved.");
+            document.getElementById('death-screen').style.display = 'none'
+            document.getElementById('timer-status').classList.remove('bg-red-600')
+
+            resetTimer()
+
+            if (p_state_obj.got_shades) {
+                document.getElementById('shades').style.display = 'block'
+                document.getElementById('shades').style.borderColor = p_state_obj.shades_col
+            }
+            the_guy.style.background = p_state_obj.skin_paint
+
+            the_guy.classList.remove('exploding')
+            mouth_element.classList.remove('happy-mouth')
+            update_scrn()
+            wut_happen("System Rebooted. Style preserved.")
         }
 
         function feed() {
-            if (stats.isDead || stats.isSleeping) return;
-            stats.hunger = Math.min(100, stats.hunger + 20);
-            log("Fed Bit-Bit.");
-            updateUI();
+            if (p_state_obj.ded || p_state_obj.snoozin) return
+            p_state_obj.current_hunger_level = Math.min(100, p_state_obj.current_hunger_level + 20)
+            wut_happen("Fed Bit-Bit.")
+            update_scrn()
         }
 
         function clean() {
-            if (stats.isDead || stats.isSleeping) return;
-            stats.hygiene = Math.min(100, stats.hygiene + 30);
-            petContainer.classList.remove('dirty');
-            log("Cleaned Bit-Bit.");
-            updateUI();
+            if (p_state_obj.ded || p_state_obj.snoozin) return
+            p_state_obj.cleanliness_val = Math.min(100, p_state_obj.cleanliness_val + 30)
+            box_wrapper.classList.remove('dirty')
+            wut_happen("Cleaned Bit-Bit.")
+            update_scrn()
         }
 
         function pet() {
-            if (stats.isDead || stats.isSleeping) return;
-            stats.social = Math.min(100, stats.social + 15);
-            petMouth.classList.add('happy-mouth');
-            petBody.classList.add('pet-joy-jump');
-            log("Bit-Bit is happy!");
-            updateUI();
+            if (p_state_obj.ded || p_state_obj.snoozin) return
+            p_state_obj.stuff = Math.min(100, p_state_obj.stuff + 15)
+            mouth_element.classList.add('happy-mouth')
+            the_guy.classList.add('pjoyj')
+            wut_happen("Bit-Bit is happy!")
+            update_scrn()
             setTimeout(() => {
-                petMouth.classList.remove('happy-mouth');
-                petBody.classList.remove('pet-joy-jump');
-            }, 800);
+                mouth_element.classList.remove('happy-mouth')
+                the_guy.classList.remove('pjoyj')
+            }, 800)
         }
 
         function toggleSleep() {
-            if (stats.isDead) return;
-            stats.isSleeping = !stats.isSleeping;
-            const btn = document.getElementById('sleep-btn');
-            if (stats.isSleeping) {
-                petContainer.classList.add('sleeping');
-                btn.innerText = "WAKE UP ☀️";
-                log("Bit-Bit went to sleep (10x slower social decay).");
+            if (p_state_obj.ded) return
+            p_state_obj.snoozin = !p_state_obj.snoozin
+            let the_button_element = document.getElementById('sleep-btn')
+            if (p_state_obj.snoozin) {
+                box_wrapper.classList.add('sleeping')
+                the_button_element.innerText = "WAKE UP ☀️"
+                wut_happen("Bit-Bit went to sleep (10x slower social decay).")
             } else {
-                petContainer.classList.remove('sleeping');
-                btn.innerText = "SLEEP 💤";
-                log("Bit-Bit woke up.");
+                box_wrapper.classList.remove('sleeping')
+                the_button_element.innerText = "SLEEP 💤"
+                wut_happen("Bit-Bit woke up.")
             }
         }
 
         function toggleShop() {
-            const modal = document.getElementById('shop-modal');
-            modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
-            updateUI();
+            let m = document.getElementById('shop-modal')
+            m.style.display = (m.style.display === 'flex') ? 'none' : 'flex'
+            update_scrn()
         }
 
-        function buyItem(item) {
-            if (stats.isDead) return;
-            const prices = { drink: 10, soap: 15, autopet: 50 };
-            const price = prices[item];
+        function buyItem(itm) {
+            if (p_state_obj.ded) return
+            let p = { drink: 10, soap: 15, autopet: 50 }
+            let amt = p[itm]
 
-            if (stats.coins >= price) {
-                stats.coins -= price;
-                if (item === 'drink') stats.hunger = 100;
-                else if (item === 'soap') stats.hygiene = 100;
-                else if (item === 'autopet') {
-                    stats.isAutoPetting = true;
-                    log("AUTO-PETTER ACTIVE (600s)");
-                    setTimeout(() => { stats.isAutoPetting = false; log("AUTO-PETTER EXPIRED."); }, 600000);
-                }
-                updateUI();
-            } else { log("NOT ENOUGH COINS."); }
+            if (p_state_obj.money >= amt) {
+                p_state_obj.money -= amt
+                itm === 'drink' ? p_state_obj.current_hunger_level = 100 :
+                    itm === 'soap' ? p_state_obj.cleanliness_val = 100 :
+                        itm === 'autopet' ? (p_state_obj.auto_pet_active = true, wut_happen("AUTO-PETTER ACTIVE (600s)"), setTimeout(() => { p_state_obj.auto_pet_active = false; wut_happen("AUTO-PETTER EXPIRED.") }, 600000)) : null
+                update_scrn()
+            } else { wut_happen("NOT ENOUGH COINS.") }
         }
 
-        function buyShades(color) {
-            if (stats.isDead) return;
-            if (stats.coins >= 100) {
-                stats.coins -= 100;
-                stats.hasShades = true;
-                stats.shadesColor = color;
-                const s = document.getElementById('shades');
-                s.style.display = 'block';
-                s.style.borderColor = color;
-                log(`BOUGHT SHADES IN ${color}.`);
-                updateUI();
-            } else { log("NOT ENOUGH COINS."); }
+        function buyShades(clr) {
+            if (p_state_obj.ded) return
+            if (p_state_obj.money >= 100) {
+                p_state_obj.money -= 100
+                p_state_obj.got_shades = true
+                p_state_obj.shades_col = clr
+                let asdf = document.getElementById('shades')
+                asdf.style.display = 'block'
+                asdf.style.borderColor = clr
+                wut_happen(`BOUGHT SHADES IN ${clr}.`)
+                update_scrn()
+            } else { wut_happen("NOT ENOUGH COINS.") }
         }
 
-        function buySkin(color) {
-            if (stats.isDead) return;
-            if (stats.coins >= 75) {
-                stats.coins -= 75;
-                stats.skinColor = color;
-                petBody.style.background = color;
-                log(`BOUGHT SKIN TONE: ${color}.`);
-                updateUI();
-            } else { log("NOT ENOUGH COINS."); }
+        function buySkin(clr) {
+            if (p_state_obj.ded) return
+            if (p_state_obj.money >= 75) {
+                p_state_obj.money -= 75
+                p_state_obj.skin_paint = clr
+                the_guy.style.background = clr
+                wut_happen(`BOUGHT SKIN TONE: ${clr}.`)
+                update_scrn()
+            } else {
+                wut_happen("NOT ENOUGH COINS.")
+            }
         }
 
-        function updateUI() {
-            document.getElementById('stat-hunger').innerText = Math.floor(stats.hunger) + '%';
-            document.getElementById('bar-hunger').style.width = stats.hunger + '%';
-            document.getElementById('stat-hygiene').innerText = Math.floor(stats.hygiene) + '%';
-            document.getElementById('bar-hygiene').style.width = stats.hygiene + '%';
-            document.getElementById('stat-social').innerText = Math.floor(stats.social) + '%';
-            document.getElementById('bar-social').style.width = stats.social + '%';
-            document.getElementById('wallet-display').innerText = stats.coins;
-            document.getElementById('modal-wallet').innerText = stats.coins;
+        function update_scrn() {
+            document.getElementById('stat-hunger').innerText = Math.floor(p_state_obj.current_hunger_level) + '%'
+            document.getElementById('bar-hunger').style.width = p_state_obj.current_hunger_level + '%'
+            document.getElementById('stat-hygiene').innerText = Math.floor(p_state_obj.cleanliness_val) + '%'
+            document.getElementById('bar-hygiene').style.width = p_state_obj.cleanliness_val + '%'
+            document.getElementById('stat-social').innerText = Math.floor(p_state_obj.stuff) + '%'
+            document.getElementById('bar-social').style.width = p_state_obj.stuff + '%'
+            document.getElementById('wallet-display').innerText = p_state_obj.money
+            document.getElementById('modal-wallet').innerText = p_state_obj.money
 
-            // Re-enforce colors
-            petBody.style.background = stats.skinColor;
-            if (stats.hasShades) {
-                const s = document.getElementById('shades');
-                s.style.display = 'block';
-                s.style.borderColor = stats.shadesColor;
+            the_guy.style.background = p_state_obj.skin_paint
+            if (p_state_obj.got_shades) {
+                document.getElementById('shades').style.display = 'block'
+                document.getElementById('shades').style.borderColor = p_state_obj.shades_col
             }
         }
 
         function changeBackdrop() {
-            const val = document.getElementById('bg-select').value;
-            const stage = document.getElementById('main-stage');
-            stage.className = "lg:col-span-1 neo-box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden";
-            if (val === 'cyber') stage.classList.add('backdrop-cyber');
-            if (val === 'pastel') stage.classList.add('backdrop-pastel');
-            if (val === 'matrix') stage.classList.add('backdrop-matrix');
+            let v = document.getElementById('bg-select').value
+            let s = document.getElementById('main-stage')
+            s.className = "lg:col-span-1 box flex flex-col items-center justify-center min-h-[500px] relative overflow-hidden"
+            v === 'cyber' ? s.classList.add('backdrop-cyber') : null
+            v === 'pastel' ? s.classList.add('backdrop-pastel') : null
+            if (v === 'matrix') {
+                s.classList.add('backdrop-matrix')
+            }
         }
 
         function changeMusic() {
-            const url = document.getElementById('music-select').value;
-            if (url) {
-                bgAudio.src = url;
-                bgAudio.play().catch(e => console.log("Audio blocked"));
-            } else {
-                bgAudio.pause();
-            }
+            let u = document.getElementById('music-select').value
+            if (u) {
+                tunes.src = u
+                tunes.play().catch(e => console.log("Audio blocked"))
+            } else tunes.pause()
         }
 
-        function setTimerMode(mode) {
-            if (stats.isDead) return;
-            timer.mode = mode;
-            timer.seconds = (mode === 'focus') ? 1500 : 300;
-            updateTimerDisplay();
-            document.getElementById('timer-status').innerText = mode.toUpperCase();
+        function setTimerMode(type_of_mode) {
+            if (p_state_obj.ded) { return }
+            t_things.cur_mode = type_of_mode
+            if (type_of_mode === 'focus') {
+                t_things.sec_left = 1500
+            } else {
+                t_things.sec_left = 300
+            }
+            redraw_time()
+            document.getElementById('timer-status').innerText = type_of_mode.toUpperCase()
         }
 
         function toggleTimer() {
-            if (stats.isDead) return;
-            if (timer.isActive) {
-                clearInterval(timer.interval);
-                document.getElementById('timer-toggle').innerText = "START";
+            if (p_state_obj.ded) return
+            if (t_things.running_rn) {
+                clearInterval(t_things.tick_tock)
+                document.getElementById('timer-toggle').innerText = "START"
             } else {
-                timer.interval = setInterval(() => {
-                    if (stats.isDead) {
-                        clearInterval(timer.interval);
-                        timer.isActive = false;
-                        document.getElementById('timer-toggle').innerText = "START";
-                        return;
+                t_things.tick_tock = setInterval(() => {
+                    if (p_state_obj.ded) {
+                        clearInterval(t_things.tick_tock)
+                        t_things.running_rn = false
+                        document.getElementById('timer-toggle').innerText = "START"
+                        return
                     }
+                    t_things.sec_left--
+                    t_things.tick_count++
 
-                    timer.seconds--;
-                    timer.miningTick++;
-
-                    // Only mine if pet is alive
-                    if (timer.miningTick >= 10 && !stats.isDead) {
-                        stats.coins += 1;
-                        timer.miningTick = 0;
-                        updateUI();
+                    if (t_things.tick_count >= 10 && !p_state_obj.ded) {
+                        p_state_obj.money += 1
+                        t_things.tick_count = 0
+                        update_scrn()
                     }
-                    updateTimerDisplay();
-                    if (timer.seconds <= 0) {
-                        clearInterval(timer.interval);
-                        timer.isActive = false;
-                        document.getElementById('timer-toggle').innerText = "START";
-                        document.getElementById('sfx-alert').play();
-                        showCustomNotification("TIME'S UP!");
+                    redraw_time()
+                    if (t_things.sec_left <= 0) {
+                        clearInterval(t_things.tick_tock)
+                        t_things.running_rn = false
+                        document.getElementById('timer-toggle').innerText = "START"
+                        document.getElementById('sfx-alert').play()
+                        showCustomNotification("TIME'S UP!")
                     }
-                }, 1000);
-                document.getElementById('timer-toggle').innerText = "PAUSE";
+                }, 1000)
+                document.getElementById('timer-toggle').innerText = "PAUSE"
             }
-            timer.isActive = !timer.isActive;
+            t_things.running_rn = !t_things.running_rn
         }
 
         function resetTimer() {
-            clearInterval(timer.interval);
-            timer.isActive = false;
-            timer.miningTick = 0;
-            setTimerMode(timer.mode);
-            document.getElementById('timer-toggle').innerText = "START";
+            clearInterval(t_things.tick_tock)
+            t_things.running_rn = false
+            t_things.tick_count = 0
+            setTimerMode(t_things.cur_mode)
+            document.getElementById('timer-toggle').innerText = "START"
         }
 
-        function updateTimerDisplay() {
-            const mins = Math.floor(timer.seconds / 60);
-            const secs = timer.seconds % 60;
-            document.getElementById('timer-display').innerText =
-                `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+        function redraw_time() {
+            let m_val = Math.floor(t_things.sec_left / 60)
+            let s_val = t_things.sec_left % 60
+            document.getElementById('timer-display').innerText = m_val.toString().padStart(2, '0') + ':' + s_val.toString().padStart(2, '0')
         }
 
-        function showCustomNotification(text) {
-            const bubble = document.getElementById('status-bubble');
-            bubble.innerText = text;
-            bubble.style.display = 'block';
-            setTimeout(() => bubble.style.display = 'none', 5000);
+        window.onload = init
+
+        function showCustomNotification(txt) {
+            let b = document.getElementById('status-bubble')
+            b.innerText = txt
+            b.style.display = 'block'
+            setTimeout(() => b.style.display = 'none', 5000)
         }
 
-        window.onload = init;
+        function some_random_util_for_later(input_val) {
+            let dummy_arr = [1, 2, 3]
+            dummy_arr.push(input_val)
+            return dummy_arr
+        }
     </script>
 </body>
 
 </html>
-
-
